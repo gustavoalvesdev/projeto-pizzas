@@ -1,4 +1,8 @@
+// carrinho de compras
+let cart = []
 let modalQt = 1
+let modalKey = 0
+
 // query selector alias
 const q = el => document.querySelector(el)
 const qA = el => document.querySelectorAll(el)
@@ -7,7 +11,7 @@ const qA = el => document.querySelectorAll(el)
 pizzaJson.map((pizza, pizzaIndex) => {
     // clone
     const pizzaItem = q('.models .pizza-item').cloneNode(true)
-    
+
     // add
     pizzaItem.setAttribute('data-key', pizzaIndex);
     pizzaItem.querySelector('.pizza-item--img img').src = pizza.img
@@ -20,7 +24,7 @@ pizzaJson.map((pizza, pizzaIndex) => {
 
         const key = e.target.closest('.pizza-item').getAttribute('data-key');
         modalQt = 1
-
+        modalKey = key
 
         q('.pizzaBig img').src = pizzaJson[key].img
         q('.pizzaInfo h1').innerHTML = pizzaJson[key].name
@@ -29,7 +33,7 @@ pizzaJson.map((pizza, pizzaIndex) => {
         q('.pizzaInfo--size.selected').classList.remove('selected')
 
 
-        qA('.pizzaInfo--size').forEach( (pizzaSize, sizeIndex) => {
+        qA('.pizzaInfo--size').forEach((pizzaSize, sizeIndex) => {
 
             if (sizeIndex == 2) {
                 pizzaSize.classList.add('selected')
@@ -52,12 +56,12 @@ pizzaJson.map((pizza, pizzaIndex) => {
 })
 
 // Modal events
-const closeModal =  () => {
+const closeModal = () => {
     q('.pizzaWindowArea').style.opacity = 0
     setTimeout(() => q('.pizzaWindowArea').style.display = 'none', 500)
 }
 
-qA('.pizzaInfo--cancelButton, .pizzaInfo--cancelMobileButton').forEach( item => item.addEventListener('click', closeModal))
+qA('.pizzaInfo--cancelButton, .pizzaInfo--cancelMobileButton').forEach(item => item.addEventListener('click', closeModal))
 
 q('.pizzaInfo--qtmenos').addEventListener('click', () => {
     if (modalQt > 1) {
@@ -76,4 +80,18 @@ qA('.pizzaInfo--size').forEach((pizzaSize, sizeIndex) => {
         q('.pizzaInfo--size.selected').classList.remove('selected')
         pizzaSize.classList.add('selected')
     })
+})
+
+q('.pizzaInfo--addButton').addEventListener('click', () => {
+
+    let size = parseInt(q('.pizzaInfo--size.selected').getAttribute('data-key'))
+
+    cart.push({
+        id: pizzaJson[modalKey].id,
+        size,
+        qt: modalQt
+    })
+
+    closeModal()
+
 })
