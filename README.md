@@ -1,2 +1,3 @@
-# projeto-pizzas
-Projeto das Pizzas do Curso JavaScript Nível 1 do Bonieky
+# Carrinho de Compras para Pizzaria
+Carrinho de Compras para pizzarias, desenvolvido em Vanilla JS
+--------------------------------------------------------------
